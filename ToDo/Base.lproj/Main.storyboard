@@ -191,7 +191,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="New ToDo" largeTitleDisplayMode="never" id="G3r-JG-26Q">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="2da-vC-Gte"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="FuZ-0F-t1L"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="FuZ-0F-t1L">
+                            <connections>
+                                <segue destination="I1h-8H-w8z" kind="unwind" identifier="saveUnwind" unwindAction="unwindToToDoListWithSegue:" id="y4k-hx-Sbt"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="dueDateLabel" destination="jZ9-xl-JGn" id="EXX-LJ-LEV"/>
@@ -203,6 +207,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w2F-jL-bgL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="I1h-8H-w8z" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2357" y="131"/>
         </scene>
