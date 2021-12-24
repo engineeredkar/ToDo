@@ -16,6 +16,7 @@ class ToDoDetailTableViewController: UITableViewController {
     @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    var todo: ToDo?
     var isDatePickerHidden = true
     let dateLabelIndexPath = IndexPath(row: 0, section: 1)
     let datePickerIndexPath = IndexPath(row: 1, section: 1)
@@ -45,6 +46,20 @@ class ToDoDetailTableViewController: UITableViewController {
             dueDateLabel.textColor = .black
             updateDueDateLabel(date: dueDatePickerView.date)
             tableView.reloadData()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        guard segue.identifier == "saveUnwind" else { return }
+        
+        if let title = titleTextField.text {
+            let title = title
+            let isComplete = isCompleteButton.isSelected
+            let dueDate = dueDatePickerView.date
+            let notes = notesTextView.text
+            todo = ToDo(title: title, isComplete: isComplete, dueDate: dueDate, notes: notes)
         }
     }
     
