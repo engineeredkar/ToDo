@@ -24,9 +24,18 @@ class ToDoDetailTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let todo = todo {
+            navigationItem.title = "To-Do"
+            titleTextField.text = todo.title
+            isCompleteButton.isSelected = todo.isComplete
+            dueDatePickerView.date = todo.dueDate
+            notesTextView.text = todo.notes
+        } else {
+            dueDatePickerView.date = Date().addingTimeInterval(24*60*60)
+        }
+        
         updateSaveButtonState()
         updateDueDateLabel(date: dueDatePickerView.date)
-        dueDatePickerView.date = Date().addingTimeInterval(24*60*60)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

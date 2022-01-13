@@ -44,6 +44,16 @@ class ToDoTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
+        
+    @IBSegueAction func editToDo(_ coder: NSCoder, sender: Any?) -> ToDoDetailTableViewController? {
+        guard let cell = sender as? UITableViewCell,
+              let indexPath = tableView.indexPath(for: cell)
+        else { return nil }
+        tableView.deselectRow(at: indexPath, animated: true)
+        let detailController = ToDoDetailTableViewController(coder: coder)
+        detailController?.todo = todos[indexPath.row]
+        return detailController
+    }
     
     @IBAction func unwindToToDoList( segue: UIStoryboardSegue) {
         guard
@@ -52,9 +62,14 @@ class ToDoTableViewController: UITableViewController {
         else { return }
         
         if let todo = sourceViewController.todo {
+            if let indexOfExistingToDo = todos.firstIndex(of: todo) {
+                todos[indexOfExistingToDo] = todo
+                tableView.reloadRows(at: [IndexPath(row: indexOfExistingToDo, section: 0)], with: .automatic)
+            } else {
             let newIndexPath = IndexPath(row: todos.count, section: 0)
             todos.append(todo)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
         }
     }
 }
