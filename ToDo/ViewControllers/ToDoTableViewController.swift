@@ -14,7 +14,7 @@ protocol ToDoCellDelegate: AnyObject {
 class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
     
     var todos = [ToDo]()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if let savedToDos = ToDo.loadToDos(){
@@ -57,6 +57,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
         if editingStyle == .delete {
             todos.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            ToDo.saveToDos(todos)
         }
     }
         
