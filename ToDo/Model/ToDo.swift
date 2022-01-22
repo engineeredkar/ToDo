@@ -14,8 +14,12 @@ struct ToDo: Equatable, Codable {
     var dueDate: Date
     var notes: String?
     
-    static let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
-                                                                in: .userDomainMask).first!
+    static let documentsDirectory: URL = {
+        guard let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        else { fatalError() }
+        
+        return url
+    }()
     
     static let archiveURL = documentsDirectory.appendingPathComponent("todos").appendingPathExtension("plist")
     

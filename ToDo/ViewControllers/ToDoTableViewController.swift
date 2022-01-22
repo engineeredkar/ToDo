@@ -17,7 +17,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let savedToDos = ToDo.loadToDos(){
+        if let savedToDos = ToDo.loadToDos() {
             todos = savedToDos
         } else {
             todos = ToDo.loadSimpleToDos()
