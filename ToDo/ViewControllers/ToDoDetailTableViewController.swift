@@ -73,6 +73,7 @@ class ToDoDetailTableViewController: UITableViewController {
             todo.isComplete = isComplete
             todo.dueDate = dueDate
             todo.notes = notes
+            self.todo = todo
         } else {
             todo = ToDo(title: title ?? "", isComplete: isComplete, dueDate: dueDate, notes: notes)
         }
