@@ -63,12 +63,19 @@ class ToDoDetailTableViewController: UITableViewController {
         
         guard segue.identifier == "saveUnwind" else { return }
         
-        if let title = titleTextField.text {
-            let title = title
-            let isComplete = isCompleteButton.isSelected
-            let dueDate = dueDatePickerView.date
-            let notes = notesTextView.text
-            todo = ToDo(title: title, isComplete: isComplete, dueDate: dueDate, notes: notes)
+        let title = titleTextField.text
+        let isComplete = isCompleteButton.isSelected
+        let dueDate = dueDatePickerView.date
+        let notes = notesTextView.text
+        
+        if var todo = self.todo {
+            todo.title = title ?? ""
+            todo.isComplete = isComplete
+            todo.dueDate = dueDate
+            todo.notes = notes
+            self.todo = todo
+        } else {
+            todo = ToDo(title: title ?? "", isComplete: isComplete, dueDate: dueDate, notes: notes)
         }
     }
     

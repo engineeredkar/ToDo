@@ -14,10 +14,10 @@ protocol ToDoCellDelegate: AnyObject {
 class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
     
     var todos = [ToDo]()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let savedToDos = ToDo.loadToDos(){
+        if let savedToDos = ToDo.loadToDos() {
             todos = savedToDos
         } else {
             todos = ToDo.loadSimpleToDos()
@@ -31,6 +31,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
             todo.isComplete.toggle()
             todos[indexPath.row] = todo
             tableView.reloadRows(at: [indexPath], with: .automatic)
+            ToDo.saveToDos(todos)
         }
     }
        
@@ -57,6 +58,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
         if editingStyle == .delete {
             todos.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            ToDo.saveToDos(todos)
         }
     }
         
@@ -86,5 +88,6 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
         }
+        ToDo.saveToDos(todos)
     }
 }

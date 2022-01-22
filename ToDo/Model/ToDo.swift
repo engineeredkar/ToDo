@@ -7,12 +7,21 @@
 
 import Foundation
 
-struct ToDo: Equatable {
-    let id = UUID().uuidString
+struct ToDo: Equatable, Codable {
+    var id = UUID().uuidString
     var title: String
     var isComplete: Bool
     var dueDate: Date
     var notes: String?
+    
+    static let documentsDirectory: URL = {
+        guard let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        else { fatalError() }
+        
+        return url
+    }()
+    
+    static let archiveURL = documentsDirectory.appendingPathComponent("todos").appendingPathExtension("plist")
     
     static let dueDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -26,15 +35,19 @@ struct ToDo: Equatable {
     }
     
     static func loadToDos() -> [ToDo]? {
-        return nil
+        guard let codedTodos = try? Data(contentsOf: archiveURL) else { return nil }
+        let propertyListDecoder = PropertyListDecoder()
+        return try? propertyListDecoder.decode(Array<ToDo>.self, from: codedTodos)
+    }
+    
+    static func saveToDos(_ todos: [ToDo]) {
+        let propertyListEncoder = PropertyListEncoder()
+        let codedToDos = try? propertyListEncoder.encode(todos)
+        try? codedToDos?.write(to: archiveURL, options: .noFileProtection)
     }
     
     static func loadSimpleToDos() -> [ToDo] {
-        let todo1 = ToDo(title: "ToDo One", isComplete: false, dueDate: Date(), notes: "Notes 1")
-        let todo2 = ToDo(title: "ToDo Two", isComplete: false, dueDate: Date(), notes: "Notes 2")
-        let todo3 = ToDo(title: "ToDo Three", isComplete: false, dueDate: Date(), notes: "Notes 3")
-        
-        return[todo1, todo2, todo3]
-         
+        let todo1 = ToDo(title: "ToDo1", isComplete: false, dueDate: Date(), notes: "notes1")
+        return [todo1]
     }
 }
